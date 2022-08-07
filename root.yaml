@@ -11,13 +11,13 @@ Resources:
      - PublicSubnets
     Properties:
       TemplateURL: https://ecsclusterdemo.s3.ap-south-1.amazonaws.com/iam.yml
-   EcsCluster:
+  EcsCluster:
     Type: AWS::CloudFormation::Stack 
     DependsOn: 
      - IAMRoles
     Properties:
       TemplateURL: https://ecsclusterdemo.s3.ap-south-1.amazonaws.com/app-cluster.yml
-   Appversion:
+  Appversion:
     Type: AWS::CloudFormation::Stack 
     DependsOn: 
      - EcsCluster
