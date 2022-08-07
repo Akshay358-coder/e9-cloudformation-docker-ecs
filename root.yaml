@@ -4,13 +4,25 @@ Resources:
   PublicSubnets:
     Type: AWS::CloudFormation::Stack
     Properties:
-      TemplateURL: https://allclounformationtemplates.s3.ap-south-1.amazonaws.com/Pub_Subnets.yaml
-  ECSCluster:
+      TemplateURL: https://ecsclusterdemo.s3.ap-south-1.amazonaws.com/vpc.yml
+  IAMRoles:
     Type: AWS::CloudFormation::Stack 
     DependsOn: 
      - PublicSubnets
     Properties:
-      Parameters:
-        Subnet1: !GetAtt PublicSubnets.Outputs.outputPublicSubnets1
-        Subnet2: !GetAtt PublicSubnets.Outputs.outputPublicSubnets2
-      TemplateURL: https://allclounformationtemplates.s3.ap-south-1.amazonaws.com/ECS_Cluster.yaml
+      TemplateURL: https://ecsclusterdemo.s3.ap-south-1.amazonaws.com/iam.yml
+   EcsCluster:
+    Type: AWS::CloudFormation::Stack 
+    DependsOn: 
+     - IAMRoles
+    Properties:
+      TemplateURL: https://ecsclusterdemo.s3.ap-south-1.amazonaws.com/app-cluster.yml
+   Appversion:
+    Type: AWS::CloudFormation::Stack 
+    DependsOn: 
+     - EcsCluster
+    Properties:
+      TemplateURL: https://ecsclusterdemo.s3.ap-south-1.amazonaws.com/api.yml
+    
+     
+    
