@@ -1,0 +1,16 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: root template to call child templates
+Resources: 
+  PublicSubnets:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: https://allclounformationtemplates.s3.ap-south-1.amazonaws.com/Pub_Subnets.yaml
+  ECSCluster:
+    Type: AWS::CloudFormation::Stack 
+    DependsOn: 
+     - PublicSubnets
+    Properties:
+      Parameters:
+        Subnet1: !GetAtt PublicSubnets.Outputs.outputPublicSubnets1
+        Subnet2: !GetAtt PublicSubnets.Outputs.outputPublicSubnets2
+      TemplateURL: https://allclounformationtemplates.s3.ap-south-1.amazonaws.com/ECS_Cluster.yaml
